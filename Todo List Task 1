@@ -1,1 +1,237 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+struct todolist
+{
+    int id;
+    string task;
+};
+
+int ID = 0;
+
+void banner()
+{
+    cout << "----------------------------------" << endl;
+    cout << "\tMy To Do" << endl;
+    cout << "----------------------------------" << endl;
+}
+
+void addTask();
+void showTask();
+void searchTask();
+void deleteTask();
+void updateTask();
+
+int main()
+{
+    system("cls");
+    banner();
+
+    while (true)
+    {
+        cout << endl << "\t1. Add Task" << endl;
+        cout << "\t2. Show Task" << endl;
+        cout << "\t3. Search Task" << endl;
+        cout << "\t4. Delete Task" << endl;
+        cout << "\t5. Update Task" << endl;
+        cout << "Enter your Choice: ";
+        
+        int choice;
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            addTask();
+            break;
+        case 2:
+            showTask();
+            break;
+        case 3:
+            searchTask();
+            break;
+        case 4:
+            deleteTask();
+            break;
+        case 5:
+            updateTask();
+            break;
+        default:
+            cout << "Wrong Choice Entered" << endl;
+        }
+    }
+
+    return 0;
+}
+
+void addTask()
+{
+    system("cls");
+    banner();
+    todolist todo;
+    cout << "Enter a Task: ";
+    cin.ignore(); // Clear input buffer
+    getline(cin, todo.task);
+
+    ofstream fout("todo.txt", ios::app); // Open file in append mode
+    if (!fout)
+    {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+
+    fout << ++ID << endl; // Increment ID before writing
+    fout << todo.task << endl;
+
+    fout.close();
+
+    char more;
+    cout << "Add more Task (y/n): ";
+    cin >> more;
+    if (more == 'y' || more == 'Y')
+    {
+        addTask();
+    }
+    else
+    {
+        system("cls");
+        cout << "Added Successfully" << endl;
+    }
+}
+
+void showTask()
+{
+    system("cls");
+    banner();
+    todolist todo;
+    ifstream fin("todo.txt");
+    cout << "Tasks: " << endl;
+    while (fin >> todo.id && getline(fin, todo.task))
+    {
+        cout << "\t" << todo.id << ": " << todo.task << endl;
+    }
+    fin.close();
+
+    char exit;
+    cout << "Exit (y/n): ";
+    cin >> exit;
+    if (exit != 'y')
+    {
+        showTask();
+    }
+}
+
+void searchTask()
+{
+    system("cls");
+    banner();
+    int id;
+    cout << "Enter the task ID to search: ";
+    cin >> id;
+    cin.ignore(); // Clear input buffer
+
+    todolist todo;
+    ifstream fin("todo.txt");
+    bool found = false;
+
+    while (fin >> todo.id && getline(fin, todo.task))
+    {
+        if (todo.id == id)
+        {
+            found = true;
+            cout << "Task ID: " << todo.id << ", Task: " << todo.task << endl;
+            break; // No need to continue searching once found
+        }
+    }
+
+    fin.close();
+
+    if (!found)
+    {
+        cout << "Task with ID " << id << " not found!" << endl;
+    }
+}
+
+void deleteTask()
+{
+    system("cls");
+    banner();
+    int id;
+    cout << "Enter the task ID to delete: ";
+    cin >> id;
+    cin.ignore(); // Clear input buffer
+
+    todolist todo;
+    ifstream fin("todo.txt");
+    ofstream fout("temp.txt");
+
+    bool found = false;
+    while (fin >> todo.id && getline(fin, todo.task))
+    {
+        if (todo.id == id)
+        {
+            found = true;
+            continue; // Skip writing this task to temp file
+        }
+        fout << todo.id << endl;
+        fout << todo.task << endl;
+    }
+
+    fin.close();
+    fout.close();
+
+    if (!found)
+    {
+        cout << "Task with ID " << id << " not found!" << endl;
+    }
+    else
+    {
+        remove("todo.txt");
+        rename("temp.txt", "todo.txt");
+        cout << "Task deleted successfully!" << endl;
+    }
+}
+
+void updateTask()
+{
+    system("cls");
+    banner();
+    int id;
+    cout << "Enter the task ID to update: ";
+    cin >> id;
+    cin.ignore(); // Clear input buffer
+
+    todolist todo;
+    ifstream fin("todo.txt");
+    ofstream fout("temp.txt");
+
+    bool found = false;
+    while (fin >> todo.id && getline(fin, todo.task))
+    {
+        if (todo.id == id)
+        {
+            found = true;
+            cout << "Enter the updated task: ";
+            getline(cin, todo.task);
+        }
+        fout << todo.id << endl;
+        fout << todo.task << endl;
+    }
+
+    fin.close();
+    fout.close();
+
+    if (!found)
+    {
+        cout << "Task with ID " << id << " not found!" << endl;
+    }
+    else
+    {
+        remove("todo.txt");
+        rename("temp.txt", "todo.txt");
+        cout << "Task updated successfully!" << endl;
+    }
+}
 
