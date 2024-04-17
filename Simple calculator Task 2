@@ -1,0 +1,150 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+void banner() {
+    system("cls");
+    cout << "*******Simple Calculator*********" << endl;
+}
+
+int detail() {
+    banner();
+    cout << "1.Addition\n" << endl;
+    cout << "2.Subtraction\n" << endl;
+    cout << "3.Multiplication\n" << endl;
+    cout << "4.Division\n" << endl;
+    cout << "5.Trigonometric Calculation\n" << endl;
+    int choice;
+    cout << "Enter Your Choice" << endl;
+    cin >> choice;
+    return choice;
+}
+
+void addition() {
+    banner();
+    int a, b;
+    cout << "Enter Two digits for Addition" << endl;
+    cin >> a >> b;
+    cout << "Sum of Two digits is " << a + b << endl;
+    cout << "exit ? y/n" << endl;
+    char cr;
+    cin >> cr;
+    if(cr == 'n' || cr == 'N') {
+        detail();
+    } else {
+        cout << "Exit Successfully" << endl;
+    }
+}
+
+void subtraction() {
+    banner();
+    int a, b;
+    cout << "Enter Two digits for Subtraction" << endl;
+    cin >> a >> b;
+    cout << "Difference between these Two digits is " << a - b << endl;
+    cout << "exit ? y/n" << endl;
+    char cr;
+    cin >> cr;
+    if(cr == 'n' || cr == 'N') {
+        detail();
+    } else {
+        cout << "Exit Successfully" << endl;
+    }
+}
+
+void multiply() {
+    banner();
+    int a, b;
+    cout << "Enter Two digits for Multiplication" << endl;
+    cin >> a >> b;
+    cout << "Product of these Two digits is " << a * b << endl;
+    cout << "exit ? y/n" << endl;
+    char cr;
+    cin >> cr;
+    if(cr == 'n' || cr == 'N') {
+        detail();
+    } else {
+        cout << "Exit Successfully" << endl;
+    }
+}
+
+void divide() {
+    banner();
+    int a, b;
+    cout << "Enter Two digits for Division" << endl;
+    cin >> a >> b;
+    if(b == 0) {
+        cout << "Cannot divide by zero" << endl;
+        return;
+    }
+    cout << "Division between these Two digits is " << (float)a / b << endl;
+    cout << "exit ? y/n" << endl;
+    char cr;
+    cin >> cr;
+    if(cr == 'n' || cr == 'N') {
+        detail();
+    } else {
+        cout << "Exit Successfully" << endl;
+    }
+}
+
+void trigonometric() {
+    int c;
+    int angle;
+    cout << "Enter the choice to Perform Trigonometry" << endl;
+    cout << "1.sin\n2.cos\n3.tan\n4.cosec\n5.sec\n6.cot" << endl;
+    cin >> c;
+    if(c >= 1 && c <= 6) {
+        cout << "Enter the angle in Degree :" << endl;
+        cin >> angle;
+        float rad = (M_PI / 180) * angle;
+        switch(c) {
+            case 1:
+                cout << "sin(" << angle << ") = " << sin(rad) << endl;
+                break;
+            case 2:
+                cout << "cos(" << angle << ") = " << cos(rad) << endl;
+                break;
+            case 3:
+                cout << "tan(" << angle << ") = " << tan(rad) << endl;
+                break;
+            case 4:
+                cout << "cosec(" << angle << ") = " << 1 / sin(rad) << endl;
+                break;
+            case 5:
+                cout << "sec(" << angle << ") = " << 1 / cos(rad) << endl;
+                break;
+            case 6:
+                cout << "cot(" << angle << ") = " << 1 / tan(rad) << endl;
+                break;
+        }
+    } else {
+        cout << "Invalid Choice" << endl;
+    }
+}
+
+int main() {
+    banner();
+    int ch = detail();
+    switch(ch) {
+        case 1:
+            addition();
+            break;
+        case 2:
+            subtraction();
+            break;
+        case 3:
+            multiply();
+            break;
+        case 4:
+            divide();
+            break;
+        case 5:
+            trigonometric();
+            break;
+        default:
+            cout << "Invalid Response. Input varies from 1-5" << endl;
+            break;
+    }
+    return 0;
+}
