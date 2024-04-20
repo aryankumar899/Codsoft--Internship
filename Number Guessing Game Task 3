@@ -1,0 +1,32 @@
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+using namespace std;
+void banner(){
+    system("cls");
+    cout<<"*******Welcome to Number Guessing Game***********"<<endl;
+    cout<<"     I have chosen the number between 1 to 100   ,Can You Guess it? "<<endl;
+}
+using namespace std;
+int main(){
+    srand(static_cast<unsigned int>(time(nullptr)));//Help from Browser 
+
+    int secretNo=rand() % 100;
+    int guess;
+    static int attempt;
+    banner();
+
+
+    do{
+        cout<<"Guess the No :";
+        cin>>guess;
+        attempt++;
+        if(guess>secretNo)
+             cout<<"Too High! Try Again"<<endl;
+        else if(guess<secretNo)
+               cout<<"Too low! Try Again"<<endl;
+        else   
+           cout<<"Congratulations you are Guessed Right in "<<attempt<<" attemps"<<endl;            
+    }while(secretNo!=guess);//Loop will Terminates when secretNo = guess 
+    return 0;
+}
